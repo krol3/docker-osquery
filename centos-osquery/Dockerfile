@@ -1,7 +1,10 @@
-FROM centos:7
-MAINTAINER Zach Wasserman <zwass@kolide.co>
+ARG VERSION=latest
+FROM $VERSION
+LABEL maintener="Zach Wasserman <zwass@kolide.co>"
 
-RUN rpm -ivh https://osquery-packages.s3.amazonaws.com/centos7/noarch/osquery-s3-centos7-repo-1-0.0.noarch.rpm
+RUN curl -L https://pkg.osquery.io/rpm/GPG | tee /etc/pki/rpm-gpg/RPM-GPG-KEY-osquery
+RUN yum-config-manager --add-repo https://pkg.osquery.io/rpm/osquery-s3-rpm.repo
+RUN yum-config-manager --enable osquery-s3-rpm
 
 RUN yum install -y osquery
 
